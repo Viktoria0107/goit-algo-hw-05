@@ -3,19 +3,23 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except ValueError:
-            return "Enter the argument for the command"
-        except KeyError:
-            return "Enter the argument for the command"
-        except IndexError:
             return "Enter the argument for the command" 
+        except KeyError:
+            return "Invalid argument entered for command"
+        except IndexError:
+            return "Enter the name after command"
+     
 
     return inner
 
 
 def parse_input(user_input):
+    if len(user_input) == 0:
+        return " "
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
+
 
 
 @input_error
@@ -46,6 +50,9 @@ def main():
     while True:
         user_input = input("Enter a command: ")
         command, *args = parse_input(user_input)
+
+        if command == " ":
+            print("Not command")
 
         if command in ["close", "exit"]:
             print("Good bye!")
